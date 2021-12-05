@@ -1,8 +1,7 @@
 class Vents():
-    def __init__(self, x_size: int, y_size: int):
-        self.x_size = x_size
-        self.y_size = y_size
-        self.areas = [[0 for _ in range(x_size)] for _ in range(y_size)]
+    def __init__(self, max_size: int):
+        self.max_size = max_size
+        self.areas = [[0 for _ in range(max_size)] for _ in range(max_size)]
 
     def draw_line(self, from_x: int, from_y: int, to_x: int, to_y: int):
         y_moment = True
@@ -14,8 +13,7 @@ class Vents():
         # diag check
         if from_x != to_x and from_y != to_y:
             # diag check
-            if from_x == from_y and to_x == to_y:
-                print(from_x, from_y, to_x, to_y)
+            if from_x - from_y == to_x - to_y:
                 pass
             else:
                 return
@@ -46,16 +44,15 @@ class Vents():
 
 if __name__ == "__main__":
     inputs = []
-    max_x, max_y = 0, 0
+    max_size = 0
     with open("day5/input.txt") as f:
         for line in f:
             from_pos, to_pos = line.strip().split(" -> ")
             from_x, from_y = list(map(int, from_pos.split(",")))
             to_x, to_y = list(map(int, to_pos.split(",")))
-            max_x = max([from_x, to_x, max_x])
-            max_y = max([from_y, to_y, max_y])
+            max_size = max([from_x, from_y, to_x, to_y, max_size])
             inputs.append([from_x, from_y, to_x, to_y])
-    vents = Vents(max_x, max_y)
+    vents = Vents(max_size)
     for d in inputs:
         from_x, from_y, to_x, to_y = d
         vents.draw_line(from_x, from_y, to_x, to_y)
