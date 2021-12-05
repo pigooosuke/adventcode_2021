@@ -10,13 +10,6 @@ class Vents():
         if from_y > to_y:
             from_y, to_y = to_y, from_y
             y_moment = False
-        # diag check
-        if from_x != to_x and from_y != to_y:
-            # diag check
-            if from_x - from_y == to_x - to_y:
-                pass
-            else:
-                return
         # draw x-axis
         if from_y == to_y:
             for i in range(from_x, to_x + 1, 1):
@@ -27,11 +20,16 @@ class Vents():
                 self.areas[from_x][i] += 1
         # draw diag
         else:
-            for idx, i in enumerate(range(from_x, to_y + 1, 1)):
-                if y_moment is True:
-                    self.areas[i][i] += 1
-                else:
-                    self.areas[i][to_y - idx] += 1
+            if y_moment is True:
+                delta = abs(from_x - to_x)
+                print(from_x, from_y, to_x, to_y, delta, y_moment)
+                for i in range(delta):
+                    self.areas[from_x + i][from_y + i] += 1
+            else:
+                delta = abs(from_x - to_x)
+                print(from_x, from_y, to_x, to_y, delta, y_moment)
+                for i in range(delta):
+                    self.areas[from_x + i][from_y - i] += 1
 
     def calc_score(self):
         score = 0
